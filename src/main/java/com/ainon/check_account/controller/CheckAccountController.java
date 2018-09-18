@@ -1,19 +1,14 @@
 package com.ainon.check_account.controller;
 
-import java.util.Base64;
-import java.util.TreeMap;
-
+import com.ainon.check_account.util.HttpUtils;
+import com.ainon.check_account.util.MapJavaObjectConverter;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.ainon.check_account.util.HttpUtils;
-import com.ainon.check_account.util.MapJavaObjectConverter;
+import java.util.Base64;
+import java.util.TreeMap;
 
 @RestController
 public class CheckAccountController {
@@ -46,7 +41,9 @@ public class CheckAccountController {
 //		byte[] signature1 = DigestUtils.md5(paramSrc + "8WYNr8RGuXDa7kuzhAXHR5BaAzzZtTUZ");
 		byte[] signature1 = DigestUtils.md5(paramSrc + password);
 		String signature = Base64.getEncoder().encodeToString(signature1);
-		signature = signature.replaceAll("\\+", "%2B");
+		logger.info("signature[{}]" ,signature);
+//		signature = signature.replaceAll("\\+", "%2B");
+//		signature = signature.replaceAll("/", "%2F");
 		logger.info("signature[{}]" ,signature);
 //		signature1 = ((String) paramsMap.get("customerInfo")).getBytes();
 
@@ -68,9 +65,14 @@ public class CheckAccountController {
 //		System.out.println("aa :" +aa);
 		
 		logger.info("取得愛儂傳回參數:" + responseData);
-
-		
-		return responseData;
+		String formatData = responseData;
+		formatData = formatData.replaceAll("balance","可用餘額");
+		formatData = formatData.replaceAll("creditLines","T0授信额度");
+		formatData = formatData.replaceAll("frozenAmt","冻结余额");
+		formatData = formatData.replaceAll("owedAmt","欠费金额");
+		formatData = formatData.replaceAll("curInAmt","当日入金");
+		formatData = formatData.replaceAll("curOutAmt","当日出金");
+		return responseData+"\n" +formatData;
 	}
 
 	
