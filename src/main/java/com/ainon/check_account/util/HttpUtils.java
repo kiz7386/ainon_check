@@ -404,59 +404,59 @@ public class HttpUtils {
 	 * @return
 	 * @author 谢志平 2016-1-7 上午11:37:33
 	 */
-	public static String postHttpsForXml(String url, Map<String, Object> params, String charset) {
-		HttpsURLConnection conn = null;
-		try {
-			String postParams = XmlUtils.parseXML(params);
-			log.debug("http发送内容：" + postParams);
-			SSLContext context = SSLContext.getInstance("TLSv1");
-			context.init(null, new TrustManager[] { new TrustAnyTrustManager() }, new SecureRandom());
-			URL curl = new URL(url);
-			conn = (HttpsURLConnection) curl.openConnection();
-			conn.setConnectTimeout(DEFAULT_TIME_OUT);
-			conn.setReadTimeout(DEFAULT_TIME_OUT);
-
-			conn.setSSLSocketFactory(context.getSocketFactory());
-			conn.setHostnameVerifier(new TrustAnyHostnameVerifier());
-			conn.setRequestProperty("Cache-Control", "no-cache");
-			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			conn.setDoInput(true);
-			conn.setDoOutput(true);
-			conn.setRequestMethod("POST");
-			conn.getOutputStream().write(postParams.getBytes(charset));
-			conn.getOutputStream().flush();
-			conn.getOutputStream().close();
-			conn.connect();
-			int statusCode = conn.getResponseCode();
-			if (HttpStatus.SC_OK == statusCode) {
-				InputStream is = conn.getInputStream();
-				BufferedInputStream bis = new BufferedInputStream(is);
-				BufferedReader br = new BufferedReader(new InputStreamReader(bis, charset));
-				StringBuffer buff = new StringBuffer();
-				String line = null;
-				while (null != (line = br.readLine())) {
-					buff.append(line);
-				}
-				br.close();
-				return buff.toString();
-			} else {
-				log.error("请求状态不为成功statusCode[{}]", statusCode);
-			}
-		} catch (IOException e) {
-			log.error("io异常", e);
-			throw new RuntimeException(IO_EXCEPTION, e);
-		} catch (KeyManagementException e) {
-			log.error("KeyManagementException异常", e);
-		} catch (NoSuchAlgorithmException e) {
-			log.error("算法不存在异常", e);
-		} finally {
-			if (null != conn) {
-				conn.disconnect();
-			}
-		}
-		return null;
-
-	}
+//	public static String postHttpsForXml(String url, Map<String, Object> params, String charset) {
+//		HttpsURLConnection conn = null;
+//		try {
+//			String postParams = XmlUtils.parseXML(params);
+//			log.debug("http发送内容：" + postParams);
+//			SSLContext context = SSLContext.getInstance("TLSv1");
+//			context.init(null, new TrustManager[] { new TrustAnyTrustManager() }, new SecureRandom());
+//			URL curl = new URL(url);
+//			conn = (HttpsURLConnection) curl.openConnection();
+//			conn.setConnectTimeout(DEFAULT_TIME_OUT);
+//			conn.setReadTimeout(DEFAULT_TIME_OUT);
+//
+//			conn.setSSLSocketFactory(context.getSocketFactory());
+//			conn.setHostnameVerifier(new TrustAnyHostnameVerifier());
+//			conn.setRequestProperty("Cache-Control", "no-cache");
+//			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+//			conn.setDoInput(true);
+//			conn.setDoOutput(true);
+//			conn.setRequestMethod("POST");
+//			conn.getOutputStream().write(postParams.getBytes(charset));
+//			conn.getOutputStream().flush();
+//			conn.getOutputStream().close();
+//			conn.connect();
+//			int statusCode = conn.getResponseCode();
+//			if (HttpStatus.SC_OK == statusCode) {
+//				InputStream is = conn.getInputStream();
+//				BufferedInputStream bis = new BufferedInputStream(is);
+//				BufferedReader br = new BufferedReader(new InputStreamReader(bis, charset));
+//				StringBuffer buff = new StringBuffer();
+//				String line = null;
+//				while (null != (line = br.readLine())) {
+//					buff.append(line);
+//				}
+//				br.close();
+//				return buff.toString();
+//			} else {
+//				log.error("请求状态不为成功statusCode[{}]", statusCode);
+//			}
+//		} catch (IOException e) {
+//			log.error("io异常", e);
+//			throw new RuntimeException(IO_EXCEPTION, e);
+//		} catch (KeyManagementException e) {
+//			log.error("KeyManagementException异常", e);
+//		} catch (NoSuchAlgorithmException e) {
+//			log.error("算法不存在异常", e);
+//		} finally {
+//			if (null != conn) {
+//				conn.disconnect();
+//			}
+//		}
+//		return null;
+//
+//	}
 
 	/**
 	 * <p>发送http请求，请求参数是json格式</p>
