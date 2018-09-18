@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 //@EnableAutoConfiguration
 //@ComponentScan
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class) 
-public class CheckAccountApplication {
-
+public class CheckAccountApplication extends SpringBootServletInitializer {
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(CheckAccountApplication.class);
+	}
 	public static void main(String[] args) {
 		SpringApplication.run(CheckAccountApplication.class, args);
 	}
