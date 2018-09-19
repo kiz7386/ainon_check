@@ -63,6 +63,7 @@ public class CheckAccountController {
 //		String aa = "5o6l5Y+X6YCa55+l5oiQ5YqfKOWVhuaIt+i0puaIt+S9memineafpeivouaIkOWKnyk=";
 //		aa = new String(Base64.getDecoder().decode(aa));
 //		System.out.println("aa :" +aa);
+		//
 		
 		logger.info("取得愛儂傳回參數:" + responseData);
 		String formatData = responseData;
